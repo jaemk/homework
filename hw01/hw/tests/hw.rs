@@ -1,9 +1,10 @@
-#![cfg(test)]
+extern crate hw;
 
-use problem1::{sum, dedup, filter};
-use problem2::mat_mult;
-use problem3::sieve;
-use problem4::{hanoi, Peg};
+use hw::problem1::{sum, dedup, filter};
+use hw::problem2::mat_mult;
+use hw::problem3::sieve;
+use hw::problem4::{hanoi, Peg};
+use hw::problem5::{bloom, djb2, fnv, jenkins};
 
 //
 // Problem 1
@@ -75,3 +76,18 @@ fn test_hanoi_1_disks() {
     assert_eq!(vec![(Peg::A, Peg::C)], result);
     assert_eq!(1, result.len());
 }
+
+//
+// bloom
+//
+
+#[test]
+fn test_bloom_foods() {
+    let data = vec!["apple", "blueberry", "carrot", "date", "eggplant",
+        "fig", "grapefruit"];
+    let hashes = [djb2, fnv, jenkins];
+    assert_eq!(true, bloom(&data, hashes, "carrot"));
+    assert_eq!(true, bloom(&data, hashes, "milk"));
+    assert_eq!(false, bloom(&data, hashes, "bread"));
+}
+
